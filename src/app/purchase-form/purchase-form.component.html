@@ -1,0 +1,299 @@
+<form [formGroup]="orderForm">
+  <div formArrayName="purchaseOrder">
+    <div class="row mt-3">
+      <!-- Client Name -->
+      <div class="col-lg-3 col-md-6">
+        <div class="form-group">
+          <label for="clientName"
+            >Client Name <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <select
+            id="clientName"
+            formControlName="clientName"
+            class="form-control mt-2"
+          >
+            <option value="" selected disabled>Choose Client Name</option>
+            <option *ngFor="let type of clients" [value]="type.value">
+              {{ type.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              purchaseOrder.get('clientName')?.hasError('required') &&
+              purchaseOrder.get('clientName')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.clientNameRequired }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Type -->
+      <div class="col-lg-3 col-md-6">
+        <div class="form-group">
+          <label for="orderType"
+            >Purchase Order Type <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <select
+            id="orderType"
+            formControlName="orderType"
+            class="form-control mt-2"
+          >
+            <option value="" selected disabled>Choose Order Type</option>
+            <option *ngFor="let type of orderTypes" [value]="type.value">
+              {{ type.name }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              purchaseOrder.get('orderType')?.hasError('required') &&
+              purchaseOrder.get('orderType')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.orderTypeRequired }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Number -->
+      <div class="col-lg-3 col-md-6">
+        <div class="form-group">
+          <label for="orderNumber"
+            >Purchase Order Number <i class="bi bi-asterisk text-danger"></i>
+          </label>
+          <input
+            type="text"
+            id="orderNumber"
+            formControlName="orderNumber"
+            class="form-control mt-2"
+            placeholder="PO Number"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('orderNumber')?.hasError('required') &&
+              purchaseOrder.get('orderNumber')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.orderNumberRequired }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Received On -->
+      <div class="col-lg-3 col-md-6">
+        <div class="form-group">
+          <label for="receivedOn"
+            >Received On <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="date"
+            id="receivedOn"
+            formControlName="receivedOn"
+            class="form-control mt-2"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('receivedOn')?.hasError('required') &&
+              purchaseOrder.get('receivedOn')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.receivedOnRequired }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <!-- Received From Name -->
+      <div class="col-lg-3 col-md-6">
+        <div class="form-group">
+          <label for="receivedFromName"
+            >Received From <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="text"
+            id="receivedFromName"
+            formControlName="receivedFromName"
+            class="form-control mt-2"
+            placeholder="Received From Name"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('receivedFromName')?.hasError('required') &&
+              purchaseOrder.get('receivedFromName')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.receivedFromNameRequired }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Received From Email -->
+      <div class="col-lg-2 col-md-6">
+        <div class="form-group">
+          <label for="receivedFromEmail"></label>
+          <input
+            type="email"
+            id="receivedFromEmail"
+            formControlName="receivedFromEmail"
+            class="form-control mt-2"
+            placeholder="Received From Email ID"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('receivedFromEmail')?.hasError('required') &&
+              purchaseOrder.get('receivedFromEmail')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.receivedFromEmailRequired }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Start Date -->
+      <div class="col-md-auto">
+        <div class="form-group">
+          <label for="orderStartDate"
+            >Order Start Date <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="date"
+            id="orderStartDate"
+            formControlName="orderStartDate"
+            class="form-control mt-2"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('orderStartDate')?.hasError('required') &&
+              purchaseOrder.get('orderStartDate')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.orderStartDateRequired }}
+          </div>
+          <div
+            *ngIf="isMatchedStartDateWithEndDate()"
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.datesMatch }}
+          </div>
+          <!-- this code will use if we use date matching value taking from service -->
+          <!-- <div
+            *ngIf="purchaseOrder?.hasError('datesMatch')"
+            class="text-danger fw-normal"
+          >
+            Order start date and end date cannot be the same.
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Order End Date -->
+      <div class="col-md-auto">
+        <div class="form-group">
+          <label for="orderEndDate"
+            >Order End Date <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="date"
+            id="orderEndDate"
+            formControlName="orderEndDate"
+            class="form-control mt-2"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('orderEndDate')?.hasError('required') &&
+              purchaseOrder.get('orderEndDate')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.orderEndDateRequired }}
+          </div>
+          <div
+            *ngIf="isMatchedStartDateWithEndDate()"
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.datesMatch }}
+          </div>
+          <!-- <div
+            *ngIf="purchaseOrder?.hasError('datesMatch')"
+            class="text-danger fw-normal"
+          >
+            Order start date and end date cannot be the same.
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div class="col-md-auto">
+        <div class="form-group">
+          <label for="budget"
+            >Budget <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="number"
+            id="budget"
+            formControlName="budget"
+            class="form-control mt-2"
+            placeholder="Budget"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('budget')?.hasError('required') &&
+              purchaseOrder.get('budget')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.budgetRequired }}
+          </div>
+          <div
+            *ngIf="
+              purchaseOrder.get('budget')?.hasError('maxLengthExceeded') &&
+              purchaseOrder.get('budget')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.budgetMaxLength }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Currency -->
+      <div class="col-md-auto">
+        <div class="form-group">
+          <label for="currency"
+            >Currency <i class="bi bi-asterisk text-danger"></i
+          ></label>
+          <input
+            type="text"
+            id="currency"
+            formControlName="currency"
+            class="form-control mt-2"
+          />
+          <div
+            *ngIf="
+              purchaseOrder.get('currency')?.hasError('required') &&
+              purchaseOrder.get('currency')?.touched
+            "
+            class="text-danger fw-normal"
+          >
+            {{ ValidationMessage.currencyRequired }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- talent details start here -->
+
+  <app-talent-details
+    [orderForm]="orderForm"
+    [talentDetails]="talentDetails"
+  ></app-talent-details>
+</form>

@@ -1,0 +1,300 @@
+<div [formGroup]="orderForm">
+  <div formArrayName="talentDetails">
+    <header
+      class="d-flex justify-content-between mt-2 bg-body-secondary align-items-center p-2"
+    >
+      <h5>Talent Detail</h5>
+      <button
+        type="button"
+        *ngIf="showAddAnotherFieldButton()"
+        (click)="addTalentDetail()"
+        class="btn button"
+      >
+        Add Another
+      </button>
+    </header>
+
+    <!-- job section -->
+
+    <div *ngFor="let talent of talentDetails.controls; let i = index">
+      <div class="d-flex justify-content-end mt-2">
+        <button
+          type="button"
+          class="btn icon mx-3"
+          [ngStyle]="{ background: '#d3d4d5' }"
+          (click)="removeTalentDetail(i)"
+          [hidden]="i == 0"
+        >
+          🗑️
+        </button>
+
+        <button
+          class="btn mx-3"
+          (click)="setIsVisible()"
+          [ngStyle]="{ background: '#d3d4d5' }"
+          [hidden]="i == 0"
+        >
+          {{ isFieldVisible ? "➖" : "➕" }}
+        </button>
+      </div>
+      <div
+        class="row mt-3"
+        [formGroupName]="i"
+        *ngIf="i === 0 || isFieldVisible"
+      >
+        <!-- Job Title -->
+        <div class="col-lg-3 col-md-6">
+          <div class="form-group">
+            <label for="jobTitle"
+              >Job Title/REQ Name <i class="bi bi-asterisk text-danger"></i
+            ></label>
+            <select
+              name="jobTitle"
+              formControlName="jobTitle"
+              class="form-control mt-2"
+              (change)="onJobTitleChange($event, i)"
+            >
+              <option value="" selected disabled>Choose Job Title</option>
+              <option *ngFor="let job of jobTitles" [value]="job?.name">
+                {{ job?.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                talent.get('jobTitle')?.hasError('required') &&
+                talent.get('jobTitle')?.touched
+              "
+              class="text-danger fw-normal"
+            >
+              {{ ValidationMessage.jobTitleRequired }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Job Id -->
+        <div class="col-lg-3 col-md-6">
+          <div class="form-group">
+            <label for="jobId"
+              >Job Id/REQ ID <i class="bi bi-asterisk text-danger"></i
+            ></label>
+            <input
+              id="jobId{{ i }}"
+              placeholder="Job Id"
+              type="text"
+              formControlName="jobId"
+              class="form-control mt-2"
+              readonly
+            />
+            <div
+              *ngIf="
+                talent.get('jobId')?.hasError('required') &&
+                talent.get('jobId')?.touched
+              "
+              class="text-danger fw-normal"
+            >
+              {{ ValidationMessage.jobIdRequired }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6"></div>
+
+        <div class="col-lg-3 col-md-6"></div>
+
+        <!--checkbox pattern start  -->
+
+        <div class="row mt-2 mb-2">
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <div class="checkbox-container">
+                <input
+                  type="checkbox"
+                  id="checkBoxName{{ i }}"
+                  formControlName="checkBoxName"
+                  class="form-check-input mt-2"
+                  (change)="updateValidators()"
+                />
+                <label for="checkBoxName{{ i }}" class="checkbox-label"
+                  >Kartik Chhabra Test</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <!-- Contact Duration -->
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="contactDuration">Contract Duration </label>
+              <input
+                type="text"
+                formControlName="contactDuration"
+                class="form-control mt-2"
+                placeholder="Contract Duration"
+              />
+              <div
+                *ngIf="
+                  talent.get('contactDuration')?.hasError('required') &&
+                  talent.get('contactDuration')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.contactDurationRequired }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Bill Rate -->
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="billRate">Bill Rate</label>
+              <input
+                type="text"
+                formControlName="billRate"
+                class="form-control mt-2"
+                placeholder="Bill Rate"
+              />
+              <div
+                *ngIf="
+                  talent.get('billRate')?.hasError('required') &&
+                  talent.get('billRate')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.billRateRequired }}
+              </div>
+            </div>
+          </div>
+
+          <!-- currency -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="currency">Currency </label>
+              <input
+                type="text"
+                formControlName="currency"
+                class="form-control mt-2"
+                placeholder="Currency"
+              />
+              <div
+                *ngIf="
+                  talent.get('currency')?.hasError('required') &&
+                  talent.get('currency')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.talentCurrencyRequired }}
+              </div>
+            </div>
+          </div>
+
+          <!-- standard time BR -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="standardTimeBR">Standard Time BR</label>
+              <input
+                type="text"
+                formControlName="standardTimeBR"
+                class="form-control mt-2"
+                placeholder="Std. Time BR"
+              />
+              <div
+                *ngIf="
+                  talent.get('standardTimeBR')?.hasError('required') &&
+                  talent.get('standardTimeBR')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.standardTimeBRRequired }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- last section -->
+
+        <div class="row mt-2">
+          <!-- standard time currency -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="standardTimeCurrency">Standard Time Currency </label>
+              <input
+                type="text"
+                formControlName="standardTimeCurrency"
+                class="form-control mt-2"
+                placeholder="Std. Time Currency"
+              />
+              <div
+                *ngIf="
+                  talent.get('standardTimeCurrency')?.hasError('required') &&
+                  talent.get('standardTimeCurrency')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.standardTimeCurrencyRequired }}
+              </div>
+            </div>
+          </div>
+
+          <!-- overtime br -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="overTimeBR">OverTime BR</label>
+              <input
+                type="text"
+                formControlName="overTimeBR"
+                class="form-control mt-2"
+                placeholder="Over Time BR"
+              />
+              <div
+                *ngIf="
+                  talent.get('overTimeBR')?.hasError('required') &&
+                  talent.get('overTimeBR')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.overTimeBRRequired }}
+              </div>
+            </div>
+          </div>
+
+          <!-- ovetime currency -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="overTimeCurrency">Over Time Currency</label>
+              <input
+                type="text"
+                formControlName="overTimeCurrency"
+                class="form-control mt-2"
+                placeholder="Over Time Currency"
+              />
+              <div
+                *ngIf="
+                  talent.get('overTimeCurrency')?.hasError('required') &&
+                  talent.get('overTimeCurrency')?.touched
+                "
+                class="text-danger fw-normal"
+              >
+                {{ ValidationMessage.overTimeCurrencyRequired }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 ms-1">
+    <button type="button" (click)="resetForm()" class="btn btn-warning">
+      Reset
+    </button>
+    <button type="button" (click)="submitForm()" class="btn btn-primary ms-2">
+      Submit
+    </button>
+  </div>
+</div>

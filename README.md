@@ -1,27 +1,50 @@
-# MyApp
+# Dynamic Purchase Order Form
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+This Angular application is designed to handle dynamic purchase orders with a focus on proper form validation and dynamic form handling. The application includes a comprehensive purchase section and a talent section where users can dynamically add multiple form fields.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Purchase Section
+1. **Validation:**
+   - All fields in the purchase section have validation.
+   - Required fields to ensure data completeness.
+   - Max length limit for the budget field.
 
-## Code scaffolding
+2. **Order Type Specific Behavior:**
+   - If the order type is set to "Group PO", a button is displayed.
+   - This button allows users to add dynamic form fields in the talent section.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Talent Section
+1. **Dynamic Form Fields:**
+   - Users can create multiple form fields dynamically.
+   - Each form field includes various input fields such as job title, job ID, contact duration, bill rate, etc.
 
-## Build
+2. **Checkbox for Validation:**
+   - A checkbox is available to toggle validation for certain fields.
+   - When checked, additional fields such as contact duration, bill rate, currency, standard time BR, and over time BR become required.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. **Field Removal:**
+   - Each dynamic form field includes a checkbox to remove the field.
 
-## Running unit tests
+### Custom Validation
+1. **Maximum Character Limit:**
+   - The budget field includes a custom validation for maximum characters allowed.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. **Date Validation:**
+   - Custom validation ensures that the start and end dates are not the same.
+   - End date must always be later than the start date.
 
-## Running end-to-end tests
+### Fully Responsive
+- The application is fully responsive, ensuring a seamless user experience across various devices and screen sizes.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Usage
 
-## Further help
+1. **Add Talent Detail:**
+   - Click the button to add a new talent detail form.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. **Remove Talent Detail:**
+   - Check the checkbox next to the form field you wish to remove.
+
+3. **Submit Form:**
+   - On submitting, the form data is displayed in each field in read-only mode.
+   - To reset the form, click the reset button which clears all fields and resets the form.
